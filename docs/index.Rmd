@@ -270,7 +270,7 @@ sum_news_toks
 # Prepare to add to analysis df by renaming "document" column to "doc_id"
 names(sum_news_toks)[1] = "doc_id"
 
-# Join
+# Join (recall that our comparison, "comp", is a subset of 674 obs)
 news_analysis_section_comp = news_analysis_section_comp  %>%
     left_join(sum_news_toks, by = "doc_id") 
 
@@ -289,7 +289,8 @@ by_section_neutral = news_analysis_section_comp %>%
     ungroup() %>%
     mutate(negative = total_neg/total_words, 
            positive = total_pos/total_words,
-           netural = 1-((total_neg/total_words)+(total_pos/total_words)/total_words)) # neutral measure here
+           test = total_neg+total_pos,
+           netural = ((total_words-((total_neg)+(total_pos)))/total_words)) # neutral measure here
 by_section_neutral
 
 ```
